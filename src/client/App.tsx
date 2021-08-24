@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import React, { useState } from "react";
+import { useQuery } from "react-query";
 // Components
-import Item from './Cart/Item/Item';
-import Cart from './Cart/Cart';
-import Drawer from '@material-ui/core/Drawer';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Grid from '@material-ui/core/Grid';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import RestoreIcon from '@material-ui/icons/Restore';
-import Badge from '@material-ui/core/Badge';
+import ItemDialog from "./Cart/Item/ItemDialog";
+import Item from "./Cart/Item/Item";
+import Cart from "./Cart/Cart";
+import Drawer from "@material-ui/core/Drawer";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Grid from "@material-ui/core/Grid";
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
+import RestoreIcon from "@material-ui/icons/Restore";
+import Badge from "@material-ui/core/Badge";
 // Styles
-import { Wrapper, StyledButton, StyledAppBar, HeaderTypography } from './App.styles';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import {
+  Wrapper,
+  StyledButton,
+  StyledAppBar,
+  HeaderTypography,
+} from "./App.styles";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 // Types
 export type CartItemType = {
   id: number;
@@ -23,7 +29,6 @@ export type CartItemType = {
   amount: number;
 };
 
-
 const getCheeses = async (): Promise<CartItemType[]> =>
   await (await fetch(`api/cheeses`)).json();
 
@@ -31,21 +36,25 @@ const App = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([] as CartItemType[]);
   const { data, isLoading, error } = useQuery<CartItemType[]>(
-    'cheeses',
+    "cheeses",
     getCheeses
   );
   console.log(data);
+
+  type Nullable = CartItemType | null;
+  const [selectedItem, setSelectedItem] = React.useState<Nullable>(null);
+  const handleClose = () => setSelectedItem(null);
 
   const getTotalItems = (items: CartItemType[]) =>
     items.reduce((ack: number, item) => ack + item.amount, 0);
 
   const handleAddToCart = (clickedItem: CartItemType) => {
-    setCartItems(prev => {
+    setCartItems((prev) => {
       // 1. Is the item already added in the cart?
-      const isItemInCart = prev.find(item => item.id === clickedItem.id);
+      const isItemInCart = prev.find((item) => item.id === clickedItem.id);
 
       if (isItemInCart) {
-        return prev.map(item =>
+        return prev.map((item) =>
           item.id === clickedItem.id
             ? { ...item, amount: item.amount + 1 }
             : item
@@ -57,7 +66,7 @@ const App = () => {
   };
 
   const handleRemoveFromCart = (id: number) => {
-    setCartItems(prev =>
+    setCartItems((prev) =>
       prev.reduce((ack, item) => {
         if (item.id === id) {
           if (item.amount === 1) return ack;
@@ -69,11 +78,14 @@ const App = () => {
     );
   };
 
+  const handleEmptyCart = () => {
+    setCartItems([] as CartItemType[]);
+  };
+
   if (isLoading) return <LinearProgress />;
   if (error) return <div>Something went wrong ...</div>;
 
   return (
-
     <Wrapper>
       <StyledAppBar position="static">
         <Toolbar>
@@ -85,9 +97,7 @@ const App = () => {
           >
             <StyledButton>
               <RestoreIcon />
-              <Typography variant="subtitle2">
-                Recent Purchases
-              </Typography>
+              <Typography variant="subtitle2">Recent Purchases</Typography>
             </StyledButton>
 
             <HeaderTypography variant="h3" noWrap>
@@ -97,37 +107,47 @@ const App = () => {
             <StyledButton onClick={() => setCartOpen(true)}>
               <Badge
                 badgeContent={getTotalItems(cartItems)}
-                color='error'
-                data-cy="badge-count">
+                color="error"
+                data-cy="badge-count"
+              >
                 <AddShoppingCartIcon />
               </Badge>
 
-              <Typography variant="subtitle2">
-                Cart
-              </Typography>
+              <Typography variant="subtitle2">Cart</Typography>
             </StyledButton>
-
           </Grid>
         </Toolbar>
       </StyledAppBar>
 
-      <Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)}>
+      <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
         <Cart
           cartItems={cartItems}
           addToCart={handleAddToCart}
           removeFromCart={handleRemoveFromCart}
+          handleEmptyCart={handleEmptyCart}
+          closeCartDrawer={() => setCartOpen(false)}
         />
       </Drawer>
 
       <Grid container spacing={3}>
-        {data?.map(item => (
+        {data?.map((item) => (
           <Grid item key={item.id} xs={12} sm={4}>
-            <Item item={item} handleAddToCart={handleAddToCart} />
+            <Item
+              onClick={() => setSelectedItem(item)}
+              item={item}
+              handleAddToCart={handleAddToCart}
+            />
           </Grid>
         ))}
       </Grid>
+      {selectedItem && (
+        <ItemDialog
+          item={selectedItem}
+          handleClose={handleClose}
+          handleAddToCart={handleAddToCart}
+        />
+      )}
     </Wrapper>
-
   );
 };
 

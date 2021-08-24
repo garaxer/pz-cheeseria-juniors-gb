@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -23,5 +23,12 @@ export const Wrapper = styled.div`
     font-family: Arial, Helvetica, sans-serif;
     padding: 1rem;
     height: 100%;
+  }
+`;
+
+export const ImageWrapper = styled.div`
+  display: flex;
+  img {
+    width: 100%;
   }
 `;
