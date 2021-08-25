@@ -57,9 +57,9 @@ const PurchaseButton = ({
   );
 
   const postCart = () => {
-    localStorage.setItem("a", "a");
     refetch();
   };
+
   console.log(cartItems);
   return (
     <>

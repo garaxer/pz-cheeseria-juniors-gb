@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import ItemDialog from "./Cart/Item/ItemDialog";
 import Item from "./Cart/Item/Item";
 import Cart from "./Cart/Cart";
+import PurchaseDialog from "./Cart/PurchaseDialog";
 import Drawer from "@material-ui/core/Drawer";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Grid from "@material-ui/core/Grid";
@@ -17,7 +18,7 @@ import {
   StyledAppBar,
   HeaderTypography,
 } from "./App.styles";
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import { Toolbar, Typography } from "@material-ui/core";
 // Types
 export type CartItemType = {
   id: number;
@@ -41,9 +42,13 @@ const App = () => {
   );
   console.log(data);
 
-  type Nullable = CartItemType | null;
-  const [selectedItem, setSelectedItem] = React.useState<Nullable>(null);
-  const handleClose = () => setSelectedItem(null);
+  const [selectedItem, setSelectedItem] = React.useState<CartItemType | null>(
+    null
+  );
+  const [purchasesDialog, setPurchasesDialog] = React.useState(false);
+
+  const handleItemDialogClose = () => setSelectedItem(null);
+  const handlePurchaseDialogClose = () => setPurchasesDialog(false);
 
   const getTotalItems = (items: CartItemType[]) =>
     items.reduce((ack: number, item) => ack + item.amount, 0);
@@ -95,7 +100,7 @@ const App = () => {
             justify="space-between"
             alignItems="center"
           >
-            <StyledButton>
+            <StyledButton onClick={() => setPurchasesDialog(true)}>
               <RestoreIcon />
               <Typography variant="subtitle2">Recent Purchases</Typography>
             </StyledButton>
@@ -143,10 +148,16 @@ const App = () => {
       {selectedItem && (
         <ItemDialog
           item={selectedItem}
-          handleClose={handleClose}
+          handleClose={handleItemDialogClose}
           handleAddToCart={handleAddToCart}
         />
       )}
+
+      <PurchaseDialog
+        open={purchasesDialog}
+        handleClose={handlePurchaseDialogClose}
+        setSelectedItem={(item: CartItemType) => setSelectedItem(item)}
+      />
     </Wrapper>
   );
 };
