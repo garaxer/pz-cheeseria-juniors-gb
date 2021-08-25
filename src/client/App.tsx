@@ -118,7 +118,9 @@ const App = () => {
                 <AddShoppingCartIcon />
               </Badge>
 
-              <Typography variant="subtitle2">Cart</Typography>
+              <Typography data-cy={`open-cart`} variant="subtitle2">
+                Cart
+              </Typography>
             </StyledButton>
           </Grid>
         </Toolbar>

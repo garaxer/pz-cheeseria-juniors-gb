@@ -14,4 +14,13 @@ context('Cart Actions', () => {
 
   })
 
+  it('Purchase Items', () => {
+    cy.get('[data-cy=add-to-cart-1]').click();
+    cy.get('[data-cy=add-to-cart-4]').click();
+    cy.get('[data-cy=open-cart]').click();
+    cy.get('[data-cy=purchase-cart]').click();
+
+    cy.get('[data-cy=purchase-dialog]').should('have.text', 'You have successfully cheesed out!');    
+  })
+
 })

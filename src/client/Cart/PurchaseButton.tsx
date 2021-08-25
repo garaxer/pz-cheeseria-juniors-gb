@@ -64,6 +64,7 @@ const PurchaseButton = ({
   return (
     <>
       <StyledButton
+        data-cy={`purchase-cart`}
         disabled={!cartItems.length}
         onClick={postCart}
         variant="contained"
@@ -72,7 +73,7 @@ const PurchaseButton = ({
         {isLoading ? "Loading..." : children}
       </StyledButton>
       <Dialog open={!!dialogText} onClose={handleClose}>
-        <DialogTitle> {dialogText}</DialogTitle>
+        <DialogTitle data-cy={`purchase-dialog`}>{dialogText}</DialogTitle>
         <Button onClick={handleClose} color="primary">
           Continue Cheesing
         </Button>
