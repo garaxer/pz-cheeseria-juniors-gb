@@ -75,6 +75,7 @@ const PurchaseList = ({ handleClose, setSelectedItem }: Props) => {
               key={item.id}
             >
               <ListItemText
+                data-cy={`purchase-list-item-${item.id}`}
                 primary={item.title}
                 secondary={`Price: $${item.price}  Amount:${item.amount}`}
               />

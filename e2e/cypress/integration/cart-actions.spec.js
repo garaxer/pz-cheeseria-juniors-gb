@@ -3,6 +3,7 @@
 context('Cart Actions', () => {
   beforeEach(() => {
     cy.visit('/');
+    
   })
 
   it('Add items to cart', () => {
@@ -20,7 +21,18 @@ context('Cart Actions', () => {
     cy.get('[data-cy=open-cart]').click();
     cy.get('[data-cy=purchase-cart]').click();
 
-    cy.get('[data-cy=purchase-dialog]').should('have.text', 'You have successfully cheesed out!');    
+    cy.get('[data-cy=purchase-dialog]').should('have.text', 'You have successfully cheesed out!');
+  })
+
+  it('Shows Purchase History', () => {
+    cy.get('[data-cy=add-to-cart-1]').click();
+    cy.get('[data-cy=open-cart]').click();
+    cy.get('[data-cy=purchase-cart]').click();
+    cy.get('[data-cy=continue-shopping]').click();
+    cy.get('[data-cy=open-recent-purchases]').click();
+
+    cy.get('[data-cy=purchase-list-item-1]').invoke('text').should('include', 'ABBAYE DE BELLOC');
+    
   })
 
 })

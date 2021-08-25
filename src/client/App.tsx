@@ -102,7 +102,9 @@ const App = () => {
           >
             <StyledButton onClick={() => setPurchasesDialog(true)}>
               <RestoreIcon />
-              <Typography variant="subtitle2">Recent Purchases</Typography>
+              <Typography data-cy={`open-recent-purchases`} variant="subtitle2">
+                Recent Purchases
+              </Typography>
             </StyledButton>
 
             <HeaderTypography variant="h3" noWrap>

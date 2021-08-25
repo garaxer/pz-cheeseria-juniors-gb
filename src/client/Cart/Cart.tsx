@@ -2,6 +2,8 @@ import CartItem from "./CartItem/CartItem";
 import { Wrapper } from "./Cart.styles";
 import { CartItemType } from "../App";
 import PurchaseButton from "./PurchaseButton";
+import CloseIcon from "@material-ui/icons/Close";
+import { IconButton } from "@material-ui/core";
 type Props = {
   cartItems: CartItemType[];
   addToCart: (clickedItem: CartItemType) => void;
@@ -22,7 +24,12 @@ const Cart: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      <h2>Your Shopping Cart</h2>
+      <h2>
+        <IconButton onClick={closeCartDrawer} aria-label="close">
+          <CloseIcon />
+        </IconButton>
+        Your Shopping Cart
+      </h2>
       {cartItems.length === 0 ? <p>No items in cart.</p> : null}
       {cartItems.map((item) => (
         <CartItem

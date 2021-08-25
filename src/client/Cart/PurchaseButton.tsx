@@ -1,4 +1,4 @@
-import { StyledButton } from "./Cart.styles";
+import { CenteredDiv } from "./Cart.styles";
 import { CartItemType } from "../App";
 import { useQuery } from "react-query";
 import { useState } from "react";
@@ -63,18 +63,24 @@ const PurchaseButton = ({
   console.log(cartItems);
   return (
     <>
-      <StyledButton
-        data-cy={`purchase-cart`}
-        disabled={!cartItems.length}
-        onClick={postCart}
-        variant="contained"
-        color="primary"
-      >
-        {isLoading ? "Loading..." : children}
-      </StyledButton>
+      <CenteredDiv>
+        <Button
+          data-cy={`purchase-cart`}
+          disabled={!cartItems.length}
+          onClick={postCart}
+          variant="contained"
+          color="primary"
+        >
+          {isLoading ? "Loading..." : children}
+        </Button>
+      </CenteredDiv>
       <Dialog open={!!dialogText} onClose={handleClose}>
         <DialogTitle data-cy={`purchase-dialog`}>{dialogText}</DialogTitle>
-        <Button onClick={handleClose} color="primary">
+        <Button
+          data-cy={`continue-shopping`}
+          onClick={handleClose}
+          color="primary"
+        >
           Continue Cheesing
         </Button>
       </Dialog>

@@ -1,25 +1,40 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
   font-family: Arial, Helvetica, sans-serif;
   border-bottom: 1px solid lightblue;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 
-  div {
-    flex: 1;
-  }
-
-  .information,
   .buttons {
     display: flex;
-    justify-content: space-between;
+  }
+
+  .buttonsWrapper,
+  h3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  h3 {
+    width: 30%;
   }
 
   img {
     max-width: 80px;
     object-fit: cover;
-    margin-left: 40px;
   }
 `;
+/*  .information,
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .buttonsWrapper {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+  */

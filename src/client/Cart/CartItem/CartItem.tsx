@@ -1,8 +1,8 @@
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
 // Types
-import { CartItemType } from '../../App';
+import { CartItemType } from "../../App";
 // Styles
-import { Wrapper } from './CartItem.styles';
+import { Wrapper } from "./CartItem.styles";
 
 type Props = {
   item: CartItemType;
@@ -12,26 +12,26 @@ type Props = {
 
 const CartItem: React.FC<Props> = ({ item, addToCart, removeFromCart }) => (
   <Wrapper>
-    <div>
-      <h3>{item.title}</h3>
-      <div className='information'>
-        <p>Price: ${item.price}</p>
-        <p>Total: ${(item.amount * item.price).toFixed(2)}</p>
-      </div>
-      <div className='buttons'>
+    <h3>{item.title}</h3>
+    <div className="information">
+      <p>Price: ${item.price}</p>
+      <p>Total: ${(item.amount * item.price).toFixed(2)}</p>
+    </div>
+    <div className="buttonsWrapper">
+      <div className="buttons">
         <Button
-          size='small'
+          size="small"
           disableElevation
-          variant='contained'
+          variant="contained"
           onClick={() => removeFromCart(item.id)}
         >
           -
         </Button>
         <p>{item.amount}</p>
         <Button
-          size='small'
+          size="small"
+          variant="contained"
           disableElevation
-          variant='contained'
           onClick={() => addToCart(item)}
         >
           +

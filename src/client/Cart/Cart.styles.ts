@@ -1,19 +1,24 @@
 import styled from "styled-components";
-import { Button } from "@material-ui/core";
+
+export const CenteredDiv = styled.p`
+  justify-content: center;
+  flex-direction: column;
+`;
 
 export const Wrapper = styled.aside`
   font-family: Arial, Helvetica, sans-serif;
-  width: 500px;
+  width: 550px;
   padding: 20px;
 
-  div {
+  > div {
     display: flex;
     justify-content: space-between;
   }
-`;
 
-export const StyledButton = styled(Button)`
-  height: 40px;
-  width: 150px;
-  margin-top: 18px;
+  @media (max-width: 600px) {
+    > div {
+      flex-direction: column;
+    }
+    max-width: 250px;
+  }
 `;
